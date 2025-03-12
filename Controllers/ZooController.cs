@@ -53,5 +53,22 @@ public class ZooController : ControllerBase
             _logger.LogError("Date is not in the correct format.");
             throw new FormatException("Invalid date format.");
         }
+
     }
+
+    [HttpGet]
+    public ActionResult GetAllSpecies ()
+    {
+        try 
+        {
+            var allSpecies = _zooContext.Species.ToList();
+            return Ok(allSpecies);
+        }
+        catch (Exception)
+        {
+            _logger.LogError("Error finding species list");
+            throw new Exception("Error finding species list");
+        }
+    }
+
 }
