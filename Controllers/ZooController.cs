@@ -1,5 +1,3 @@
-
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,15 +12,13 @@ public class ZooController : ControllerBase
 {
 
     private readonly ILogger<ZooController> _logger;
-
     private ZooContext _zooContext;
-    public ZooController(ILogger<ZooController> logger, ZooContext zooContext)
+
+     public ZooController(ILogger<ZooController> logger, ZooContext zooContext)
     {
         _logger = logger;
         _zooContext = zooContext;
-
     }
-
 
     [HttpGet("{id}")]
     public ActionResult Get(int? id)
@@ -45,16 +41,17 @@ public class ZooController : ControllerBase
 
             if (animal is null)
             {
-                return NotFound("No animal in system with this ID");
+                _logger.LogInformation($"No animal in system with this ID: {id}");
+                return NotFound($"No animal in system with this ID: {id}");
             }
+            _logger.LogInformation($"Found animal with id: {animal.Id}");
             var animalDto = new AnimalDto(animal.Id, animal.Name, animal.DateOfBirth, animal.DateAcquired, animal.Sex, animal.SpeciesName, animal.Classification);
             return Ok(animalDto);
-
         }
         catch (FormatException)
         {
+            _logger.LogError("Date is not in the correct format.");
             throw new FormatException("Invalid date format.");
         }
     }
-
 }

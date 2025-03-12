@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace ZooManagement.Models;
 
 public class AnimalDto

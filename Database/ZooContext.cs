@@ -10,5 +10,4 @@ public class ZooContext: DbContext{
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
        => options.UseSqlite($"Data Source=ZooDb.db");
-        // optionsBuilder.UseSqlite("Filename=MyDatabase.db");
 }

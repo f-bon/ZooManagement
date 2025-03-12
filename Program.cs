@@ -1,13 +1,19 @@
+using NLog.Web;
 using ZooManagement.Database;
+using NLog.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddLogging(loggingBuilder =>
+    {
+        loggingBuilder.ClearProviders();
+        loggingBuilder.AddNLog();
+    });
+
 builder.Services.AddEntityFrameworkSqlite().AddDbContext<ZooContext>();
 var app = builder.Build();
 
