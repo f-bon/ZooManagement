@@ -4,8 +4,8 @@ public class AnimalDto
 {
     // public int Id { get; set; }    
     public string Name { get; set; }
-    public DateTime DateOfBirth { get; set; }
-    public DateTime DateAcquired { get; set; }
+    public DateOnly DateOfBirth { get; set; }
+    public DateOnly DateAcquired { get; set; }
     public string Sex { get; set; }
     public string SpeciesName { get; set; }
     public string Classification {get;set;}
@@ -14,7 +14,7 @@ public class AnimalDto
     {
 
     }
-    public AnimalDto( string name, DateTime dateOfBirth, DateTime dateAcquired, string sex, string speciesName, string classification)
+    public AnimalDto( string name, DateOnly dateOfBirth, DateOnly dateAcquired, string sex, string speciesName, string classification)
     {
     //    Id = id;
         Name = name;

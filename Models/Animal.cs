@@ -7,9 +7,9 @@ public class Animal
     public int Id { get; set; }
     [Required]
     public string Name { get; set; }
-    public DateTime DateOfBirth { get; set; }
+    public DateOnly DateOfBirth { get; set; }
     [Required]
-    public DateTime DateAcquired { get; set; }
+    public DateOnly DateAcquired { get; set; }
     [Required]
     public string Sex { get; set; }
     public Species Species { get; set; }
@@ -26,7 +26,7 @@ public class Animal
     {
 
     }
-    public Animal( string name, DateTime dateOfBirth, DateTime dateAcquired, string sex, Species species)
+    public Animal( string name, DateOnly dateOfBirth, DateOnly dateAcquired, string sex, Species species)
     {
         // Id = id;
         Name = name;

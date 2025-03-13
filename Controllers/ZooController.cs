@@ -20,24 +20,26 @@ public class ZooController : ControllerBase
         _zooContext = zooContext;
     }
 
+
     [HttpGet("{id}")]
     public ActionResult Get(int? id)
     {
         try
         {
+            var dateFormat  = CultureInfo.CreateSpecificCulture("en-DE");
             var animal = _zooContext.Animal
                 .Include(animal => animal.Species)
                 .Select(animal => new
                 {
                     animal.Id,
                     animal.Name,
-                    DateOfBirth = DateTime.ParseExact(animal.DateOfBirth.ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None),
-                    DateAcquired = DateTime.ParseExact(animal.DateAcquired.ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None),
+                    DateOfBirth = animal.DateOfBirth.ToString("d",dateFormat),
+                    DateAcquired = animal.DateAcquired.ToString("d",dateFormat),
                     animal.Sex,
                     animal.Species.SpeciesName,
                     animal.Species.Classification
                 })
-                .FirstOrDefault(animal => animal.Id == id);
+                .FirstOrDefault(animal => animal.Id == id);           
 
             if (animal is null)
             {
@@ -45,7 +47,7 @@ public class ZooController : ControllerBase
                 return NotFound($"No animal in system with this ID: {id}");
             }
             _logger.LogInformation($"Found animal with id: {animal.Id}");
-            var animalDto = new AnimalDto(animal.Name, animal.DateOfBirth, animal.DateAcquired, animal.Sex, animal.SpeciesName, animal.Classification);
+            var animalDto = new AnimalDto(animal.Name, DateOnly.Parse(animal.DateOfBirth), DateOnly.Parse(animal.DateAcquired), animal.Sex, animal.SpeciesName, animal.Classification);
             return Ok(animalDto);
         }
         catch (FormatException)
@@ -73,7 +75,6 @@ public class ZooController : ControllerBase
     
     [HttpPost]
     public ActionResult AddAnimal([FromBody] AnimalDto animalDto)
-    // public ActionResult AddAnimal([FromBody] string name, DateTime dateOfBirth, DateTime dateAcquired, string sex, string speciesName, string classification)
     {
         try
         {
