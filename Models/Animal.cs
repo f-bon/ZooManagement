@@ -26,4 +26,14 @@ public class Animal
     {
 
     }
+    public Animal( string name, DateTime dateOfBirth, DateTime dateAcquired, string sex, Species species)
+    {
+        // Id = id;
+        Name = name;
+        DateOfBirth = dateOfBirth;
+        DateAcquired = dateAcquired;
+        Sex = sex;
+        Species = species;
+    }
+
 }

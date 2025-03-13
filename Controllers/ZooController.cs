@@ -45,7 +45,7 @@ public class ZooController : ControllerBase
                 return NotFound($"No animal in system with this ID: {id}");
             }
             _logger.LogInformation($"Found animal with id: {animal.Id}");
-            var animalDto = new AnimalDto(animal.Id, animal.Name, animal.DateOfBirth, animal.DateAcquired, animal.Sex, animal.SpeciesName, animal.Classification);
+            var animalDto = new AnimalDto(animal.Name, animal.DateOfBirth, animal.DateAcquired, animal.Sex, animal.SpeciesName, animal.Classification);
             return Ok(animalDto);
         }
         catch (FormatException)
@@ -70,5 +70,28 @@ public class ZooController : ControllerBase
             throw new Exception("Error finding species list");
         }
     }
-
+    
+    [HttpPost]
+    public ActionResult AddAnimal([FromBody] AnimalDto animalDto)
+    // public ActionResult AddAnimal([FromBody] string name, DateTime dateOfBirth, DateTime dateAcquired, string sex, string speciesName, string classification)
+    {
+        try
+        {
+            Species species = new(animalDto.SpeciesName, animalDto.Classification);
+            if (!_zooContext.Species.Any(s => s.SpeciesName == animalDto.SpeciesName))
+            {
+                _zooContext.Species.Add(species);
+                _zooContext.SaveChanges();
+            }
+            Animal animal = new(animalDto.Name, animalDto.DateOfBirth, animalDto.DateAcquired, animalDto.Sex, species);
+            _zooContext.Animal.Add(animal);
+            _zooContext.SaveChanges();
+            return Ok($" and added to the database.");
+        }
+        catch (Exception)
+        {
+            _logger.LogError("Error adding animal/species to the database.");
+            throw new Exception("Error adding animal/species to the database.");
+        }
+    }
 }

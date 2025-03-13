@@ -2,7 +2,7 @@ namespace ZooManagement.Models;
 
 public class AnimalDto
 {
-    public int Id { get; set; }    
+    // public int Id { get; set; }    
     public string Name { get; set; }
     public DateTime DateOfBirth { get; set; }
     public DateTime DateAcquired { get; set; }
@@ -14,9 +14,9 @@ public class AnimalDto
     {
 
     }
-    public AnimalDto( int id, string name, DateTime dateOfBirth, DateTime dateAcquired, string sex, string speciesName, string classification)
+    public AnimalDto( string name, DateTime dateOfBirth, DateTime dateAcquired, string sex, string speciesName, string classification)
     {
-       Id = id;
+    //    Id = id;
         Name = name;
         DateOfBirth = dateOfBirth;
         DateAcquired = dateAcquired;

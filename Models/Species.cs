@@ -14,4 +14,11 @@ public class Species{
     }
 
     public Species(){}
+
+    public Species(string speciesName, string classification)
+    {
+        // Id =id;
+        SpeciesName = speciesName;
+        Classification = classification;
+    }
 }
